@@ -94,9 +94,15 @@ public class Job extends BaseEntity {
     private String benefits;
 
     @NotNull
-    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "posted_date", nullable = false)
     private Instant postedDate;
+
+    @PrePersist
+    protected void onCreate() {
+        if (postedDate == null) {
+            postedDate = Instant.now();
+        }
+    }
 
     @Column(name = "application_deadline")
     private Instant applicationDeadline;
